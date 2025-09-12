@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>校园注册系统 - 首页</title>
+  <!-- 新 Bootstrap5 核心 CSS 文件 -->
+  <link rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+
+  <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+  <script src="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      padding-top: 20px;
+    }
+
+    a {
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: red;
+    }
+
+    .container {
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      padding: 20px 0;
+      border-bottom: 2px solid #eee;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .search-container {
+      margin-top: 10px;
+    }
+
+    .news-section {
+      padding: 30px 20px;
+    }
+
+    .news-section h1 {
+      color: #333;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #1E9FFF;
+      font-size: 28px;
+    }
+
+    .news-card {
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background-color: #f9f9f9;
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .news-content {
+      padding: 15px;
+    }
+
+    .news-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .news-summary {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .news-meta {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .news-img {
+      height: 120px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        justify-content: center;
+      }
+
+      .search-container {
+        justify-content: center;
+      }
+
+      .news-card {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container bg-white">
+    <!-- 页头 -->
+    <div class="header row align-items-center">
+      <div class="col-md-2 col-sm-12 text-center">
+        <img src="000.jpg" alt="校园系统" class="img-fluid">
+      </div>
+
+      <div class="col-md-7 col-sm-12">
+        <div class="nav-links">
+          <a href="主页new02.html">首页</a>
+          <a href="login.html">登录</a>
+          <a href="gl.html">用户管理</a>
+          <a href="信息录入.html">信息录入</a>
+          <a href="内容管理.html">内容管理</a>
+          <a href="论坛.html">论坛</a>
+          <a href="好友管理.html">好友管理</a>
+          <a href="搜索.html">搜索</a>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-12 search-container">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="搜索新闻、通知..." style="height: 30px;">
+          <button class="btn btn-primary" type="button" style="height: 30px; padding: 0 15px;">
+            搜索
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 新闻栏 -->
+    <div class="news-section">
+      <h1>新闻动态</h1>
+      <div class="news-list">
+        <!-- 新闻1 -->
+        <div class="news-card card flex-row">
+          <div class="col-md-4">
+            <img src="https://dummyimage.com/300x200/1E9FFF/ffffff&text=校园活动" alt="校园活动" class="news-img">
+          </div>
+          <div class="col-md-8">
+            <div class="news-content">
+              <h3 class="news-title">校园科技创新大赛即将举行，报名通道已开启</h3>
+              <p class="news-summary">为激发学生创新潜能，我校将于下月举办校园科技创新大赛，涵盖人工智能、环保技术、医疗健康等多个领域。欢迎广大师生积极参与...</p>
+              <div class="news-meta">
+                <span class="badge bg-primary">通知公告</span>
+                <span class="ms-3">发布时间：2023-06-15</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 新闻2 -->
+        <div class="news-card card flex-row">
+          <div class="col-md-4">
+            <img src="https://dummyimage.com/300x200/FF6B6B/ffffff&text=学术讲座" alt="学术讲座" class="news-img">
+          </div>
+          <div class="col-md-8">
+            <div class="news-content">
+              <h3 class="news-title">知名学者将莅临我校开展学术讲座系列活动</h3>
+              <p class="news-summary">为拓展学生视野，提升学术氛围，我校邀请了多位优秀校友开展为期两周的学术讲座系列活动。讲座内容涵盖计算机科学、生命科学、人文社会科学等多个学科...</p>
+              <div class="news-meta">
+                <span class="badge bg-secondary">校友活动</span>
+                <span class="ms-3">发布时间：2023-06-10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 新闻3 -->
+        <div class="news-card card flex-row">
+          <div class="col-md-4">
+            <img src="https://dummyimage.com/300x200/4ECDC4/ffffff&text=校园建设" alt="校园建设" class="news-img">
+          </div>
+          <div class="col-md-8">
+            <div class="news-content">
+              <h3 class="news-title">我校游泳馆新馆扩建工程顺利竣工，即将投入使用</h3>
+              <p class="news-summary">经过一年多的建设，我校游泳馆新馆扩建工程已顺利竣工，将于本月底正式投入使用。其中包含一个50米,两个25米泳池，并配备了先进...</p>
+              <div class="news-meta">
+                <span class="badge bg-success">校园建设</span>
+                <span class="ms-3">发布时间：2023-06-05</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 新闻4 -->
+        <div class="news-card card flex-row">
+          <div class="col-md-4">
+            <img src="https://dummyimage.com/300x200/FFE66D/000000&text=学生获奖" alt="学生获奖" class="news-img">
+          </div>
+          <div class="col-md-8">
+            <div class="news-content">
+              <h3 class="news-title">我校学生在全国大学生数学建模竞赛中取得优异成绩</h3>
+              <p class="news-summary">在刚刚结束的全国大学生数学建模竞赛中，我校参赛队伍表现出色，共获得全国一等奖2项、二等奖5项，创下历史最好成绩。这充分展示了我校学生扎实的数理基础和创新能力...
+              </p>
+              <div class="news-meta">
+                <span class="badge bg-warning">学生获奖</span>
+                <span class="ms-3">发布时间：2023-05-30</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 分页 -->
+      <div class="mt-4 text-center">
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 为新闻卡片添加点击事件
+    document.querySelectorAll('.news-card').forEach(card => {
+      card.addEventListener('click', function () {
+        // 这里可以添加点击新闻后的跳转逻辑
+        alert('未开发');
+      });
+    });
+  </script>
+</body>
+
+</html>

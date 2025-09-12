@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>内容详情 - 校园注册系统</title>
+  <!-- 新 Bootstrap5 核心 CSS 文件 -->
+  <link rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+
+  <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+  <script src="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      padding-top: 20px;
+    }
+
+    a {
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: red;
+    }
+
+    .container {
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      padding: 20px 0;
+      border-bottom: 2px solid #eee;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .detail-section {
+      padding: 30px 20px;
+    }
+
+    .detail-content {
+      background-color: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .detail-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+    }
+
+    .detail-meta {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      color: #666;
+    }
+
+    .detail-body {
+      margin-bottom: 30px;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .detail-actions {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+
+    .badge {
+      margin-right: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        justify-content: center;
+      }
+
+      .detail-content {
+        padding: 20px;
+      }
+
+      .detail-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container bg-white">
+    <!-- 页头 -->
+    <div class="header row align-items-center">
+      <div class="col-md-2 col-sm-12 text-center">
+        <img src="000.jpg" alt="校园系统" class="img-fluid">
+      </div>
+
+      <div class="col-md-7 col-sm-12">
+        <div class="nav-links">
+          <a href="主页new02.html">首页</a>
+          <a href="login.html">登录</a>
+          <a href="gl.html">用户管理</a>
+          <a href="信息录入.html">信息录入</a>
+          <a href="content_manage.html">内容管理</a>
+          <a href="论坛.html">论坛</a>
+          <a href="好友管理.html">好友管理</a>
+          <a href="搜索.html">搜索</a>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-12 search-container">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="搜索..." style="height: 30px;">
+          <button class="btn btn-primary" type="button" style="height: 30px; padding: 0 15px;">
+            搜索
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 内容详情区域 -->
+    <div class="detail-section">
+      <div class="detail-content">
+        <h1 class="detail-title">校园科技创新大赛即将举行，报名通道已开启</h1>
+
+        <div class="detail-meta">
+          <span class="badge bg-primary">学校动态</span>
+          <span class="badge bg-info">活动</span>
+          <span class="badge bg-success">科技</span>
+          <span class="badge bg-warning">创新</span>
+          <br>
+          <span>发布时间：2023-06-15 09:30</span>
+          <span class="mx-2">|</span>
+          <span>浏览量：2,356</span>
+        </div>
+
+        <div class="detail-body">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <img src="https://dummyimage.com/800x400/1E9FFF/ffffff&text=校园科技创新大赛" alt="校园科技创新大赛"
+              class="img-fluid rounded" style="max-width: 100%;">
+          </div>
+
+          <p>为激发学生创新潜能，培养实践能力，我校将于7月15日至7月20日举办2023年度校园科技创新大赛。本次大赛旨在为广大学生提供一个展示创新才华、交流科技成果的平台，促进学生之间的学术交流与合作。</p>
+
+          <h3>大赛主题</h3>
+          <p>创新驱动未来，科技引领发展</p>
+
+          <h3>参赛对象</h3>
+          <p>全体在校学生（本科生、研究生），可以个人或团队形式参赛（团队人数不超过5人）。</p>
+
+          <h3>参赛领域</h3>
+          <ul>
+            <li>人工智能与大数据分析</li>
+            <li>环保技术与可持续发展</li>
+            <li>医疗健康与生物科技</li>
+            <li>智能制造与机器人技术</li>
+            <li>物联网与智能家居</li>
+            <li>其他具有创新性的科技项目</li>
+          </ul>
+
+          <h3>报名时间与方式</h3>
+          <p>报名时间：即日起至7月1日</p>
+          <p>报名方式：登录校园科技创新大赛官网（<a href="#"
+              style="color: blue; text-decoration: underline;">http://tech-competition.example.edu</a>）在线报名</p>
+
+          <h3>奖项设置</h3>
+          <p>大赛设一、二、三等奖及优秀奖若干，获奖项目将获得证书和奖金奖励。优秀项目还有机会推荐参加省级和国家级相关比赛。</p>
+
+          <h3>联系方式</h3>
+          <p>联系人：李老师</p>
+          <p>联系电话：010-12345678</p>
+          <p>电子邮箱：tech-competition@example.edu</p>
+
+          <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 30px;">
+            <p><strong>特别提示：</strong>请参赛选手认真阅读大赛章程，按时提交作品。如有疑问，请及时与大赛组委会联系。</p>
+          </div>
+        </div>
+
+        <div class="detail-actions">
+          <a href="内容编辑.html" class="btn btn-warning">编辑</a>
+          <button class="btn btn-danger ml-2" onclick="deleteContent(1)">删除</button>
+          <a href="内容管理.html" class="btn btn-secondary ml-2">返回列表</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 获取URL参数
+    function getUrlParams() {
+      const params = {};
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.forEach((value, key) => {
+        params[key] = value;
+      });
+      return params;
+    }
+
+    // 根据ID加载内容（实际应用中应该从服务器获取数据）
+    function loadContentById() {
+      const params = getUrlParams();
+      const contentId = params.id || '1'; // 默认加载ID为1的内容
+
+      // 这里仅作为示例，实际应用中应从服务器获取数据
+      console.log(`加载内容ID：${contentId}`);
+
+      // 如果是不同的ID，可以根据实际情况修改页面内容
+      // 例如：if (contentId === '2') { ... }
+    }
+
+    // 删除内容
+    function deleteContent(id) {
+      if (confirm(`确定要删除该内容吗？此操作不可恢复。`)) {
+        // 模拟删除操作
+        console.log(`删除内容ID：${id}`);
+        alert('内容删除成功！');
+        window.location.href = 'content_manage.html';
+      }
+    }
+
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function () {
+      loadContentById();
+    });
+  </script>
+</body>
+
+</html>

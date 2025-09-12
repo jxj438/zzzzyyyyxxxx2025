@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学生注册表单</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+
+  <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+  <script src="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding-top: 50px;
+    }
+
+    .form-container {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: inline-block;
+      width: 100px;
+      text-align: right;
+      margin-right: 10px;
+      font-weight: 500;
+    }
+
+    input {
+      width: 300px;
+      height: 40px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 0 10px;
+      font-size: 16px;
+    }
+
+    input:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+
+    .submit-btn {
+      width: 300px;
+      height: 40px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-left: 110px;
+      transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-left: 110px;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body background="bg.jpg">
+  <!-- 学生注册表单 -->
+  <div class="container">
+    <div class="form-container">
+      <h1 class="text-center mb-4">校友注册</h1>
+      <form id="registrationForm" onsubmit="return form_validate()" method="post" action="login.html">
+        <div class="form-group">
+          <label for="name">姓名</label>
+          <input id="name" type="text" name="name" placeholder="请输入姓名">
+          <div id="name-error" class="error-message"></div>
+        </div>
+        <div class="form-group">
+          <label for="phone">手机号</label>
+          <input id="phone" type="tel" name="phone" placeholder="请输入手机号">
+          <div id="phone-error" class="error-message"></div>
+        </div>
+        <div class="form-group">
+          <label for="email">邮箱</label>
+          <input id="email" type="email" name="email" placeholder="请输入邮箱">
+          <div id="email-error" class="error-message"></div>
+        </div>
+        <div class="form-group">
+          <label for="password">密码</label>
+          <input id="password" type="password" name="password" placeholder="请设置密码">
+          <div id="password-error" class="error-message"></div>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">确认密码</label>
+          <input id="confirmPassword" type="password" name="confirmPassword" placeholder="请确认密码">
+          <div id="confirmPassword-error" class="error-message"></div>
+        </div>
+        <input type="submit" value="注册" class="submit-btn">
+      </form>
+      <a href="主页new02.html" class="btn btn-link">返回主页</a>
+    </div>
+  </div>
+
+  <script>
+    // 为每个输入框添加实时验证
+    document.getElementById('name').addEventListener('blur', function () {
+      validateName();
+    });
+
+    document.getElementById('phone').addEventListener('blur', function () {
+      validatePhone();
+    });
+
+    document.getElementById('email').addEventListener('blur', function () {
+      validateEmail();
+    });
+
+    document.getElementById('password').addEventListener('blur', function () {
+      validatePassword();
+    });
+
+    document.getElementById('confirmPassword').addEventListener('blur', function () {
+      validateConfirmPassword();
+    });
+
+    // 表单整体验证函数
+    function form_validate() {
+      // 重置所有错误信息
+      hideAllErrors();
+
+      // 验证所有字段
+      const isNameValid = validateName();
+      const isPhoneValid = validatePhone();
+      const isEmailValid = validateEmail();
+      const isPasswordValid = validatePassword();
+      const isConfirmPasswordValid = validateConfirmPassword();
+
+      // 如果所有验证都通过，返回true
+      if (isNameValid && isPhoneValid && isEmailValid && isPasswordValid && isConfirmPasswordValid) {
+        alert('注册成功！');
+        return true;
+      }
+
+      // 否则返回false，阻止表单提交
+      return false;
+    }
+
+    // 姓名验证
+    function validateName() {
+      const name = document.getElementById('name');
+      const nameError = document.getElementById('name-error');
+      const regname = /^[\u4e00-\u9fa5a-zA-Z]{2,12}$/;
+
+      if (!name.value.trim()) {
+        showError(nameError, '姓名不能为空');
+        return false;
+      }
+
+      if (!regname.test(name.value.trim())) {
+        showError(nameError, '姓名长度应为2-12位，可包含中文和英文');
+        return false;
+      }
+
+      return true;
+    }
+
+    // 手机号验证
+    function validatePhone() {
+      const phone = document.getElementById('phone');
+      const phoneError = document.getElementById('phone-error');
+      const regphone = /^1[3-9]\d{9}$/;
+
+      if (!phone.value.trim()) {
+        showError(phoneError, '手机号不能为空');
+        return false;
+      }
+
+      if (!regphone.test(phone.value.trim())) {
+        showError(phoneError, '请输入正确的手机号格式');
+        return false;
+      }
+
+      return true;
+    }
+
+    // 邮箱验证
+    function validateEmail() {
+      const email = document.getElementById('email');
+      const emailError = document.getElementById('email-error');
+      const reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+      if (!email.value.trim()) {
+        showError(emailError, '邮箱不能为空');
+        return false;
+      }
+
+      if (!reg.test(email.value.trim())) {
+        showError(emailError, '请输入正确的邮箱格式');
+        return false;
+      }
+
+      return true;
+    }
+
+    // 密码验证
+    function validatePassword() {
+      const password = document.getElementById('password');
+      const passwordError = document.getElementById('password-error');
+      const regpassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
+
+      if (!password.value) {
+        showError(passwordError, '密码不能为空');
+        return false;
+      }
+
+      if (!regpassword.test(password.value)) {
+        showError(passwordError, '密码长度应为6-20位，必须包含字母和数字');
+        return false;
+      }
+
+      return true;
+    }
+
+    // 确认密码验证
+    function validateConfirmPassword() {
+      const password = document.getElementById('password');
+      const confirmPassword = document.getElementById('confirmPassword');
+      const confirmPasswordError = document.getElementById('confirmPassword-error');
+
+      if (!confirmPassword.value) {
+        showError(confirmPasswordError, '请确认密码');
+        return false;
+      }
+
+      if (confirmPassword.value !== password.value) {
+        showError(confirmPasswordError, '两次输入的密码不一致');
+        return false;
+      }
+
+      return true;
+    }
+
+    // 显示错误信息
+    function showError(element, message) {
+      element.textContent = message;
+      element.style.display = 'block';
+    }
+
+    // 隐藏所有错误信息
+    function hideAllErrors() {
+      const errorElements = document.querySelectorAll('.error-message');
+      errorElements.forEach(element => {
+        element.style.display = 'none';
+      });
+    }
+  </script>
+</body>
+
+</html>

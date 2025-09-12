@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学生信息管理系统</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      max-width: 1200px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .table-container {
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .btn {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+
+<body background="bg.jpg">
+  <div class="container">
+    <h1 class="text-center">学生信息管理系统</h1>
+
+    <!-- 添加学生表单 -->
+    <div class="form-container">
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <button id="addStudentBtn" class="btn btn-primary btn-block">添加学生</button>
+        </div>
+        <div class="col-md-2 form-group">
+          <input id="studentId" type="text" class="form-control" placeholder="请输入学号">
+        </div>
+        <div class="col-md-2 form-group">
+          <input id="studentName" type="text" class="form-control" placeholder="请输入姓名">
+        </div>
+        <div class="col-md-2 form-group">
+          <input id="college" type="text" class="form-control" placeholder="请输入学院">
+        </div>
+        <div class="col-md-2 form-group">
+          <input id="nativePlace" type="text" class="form-control" placeholder="请输入籍贯">
+        </div>
+        <div class="col-md-2 form-group">
+          <input id="jobUnit" type="text" class="form-control" placeholder="请输入就业单位">
+        </div>
+      </div>
+    </div>
+
+    <!-- 学生信息表格 -->
+    <div class="table-container">
+      <table class="table table-bordered table-striped table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>学院</th>
+            <th>籍贯</th>
+            <th>就业单位</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="studentTableBody">
+          <tr>
+            <td>2413041011</td>
+            <td>啧啧</td>
+            <td>软件工程</td>
+            <td>山西</td>
+            <td>北京邮电大学</td>
+            <td>
+              <button class="btn btn-warning btn-sm" onclick="editStudent(this)">编辑</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteStudent(this)">删除</button>
+              <a href="http://www.nuc.edu.cn" class="btn btn-info btn-sm" target="_blank">查看详情</a>
+            </td>
+          </tr>
+          <tr>
+            <td>2413041012</td>
+            <td>神</td>
+            <td>软件工程</td>
+            <td>山西</td>
+            <td>北京邮电大学</td>
+            <td>
+              <button class="btn btn-warning btn-sm" onclick="editStudent(this)">编辑</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteStudent(this)">删除</button>
+              <a href="http://www.nuc.edu.cn" class="btn btn-info btn-sm" target="_blank">查看详情</a>
+            </td>
+          </tr>
+          <tr>
+            <td>2413041013</td>
+            <td>金</td>
+            <td>软件工程</td>
+            <td>山西</td>
+            <td>北京邮电大学</td>
+            <td>
+              <button class="btn btn-warning btn-sm" onclick="editStudent(this)">编辑</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteStudent(this)">删除</button>
+              <a href="http://www.nuc.edu.cn" class="btn btn-info btn-sm" target="_blank">查看详情</a>
+            </td>
+          </tr>
+          <tr>
+            <td>2413041014</td>
+            <td>蛋</td>
+            <td>软件工程</td>
+            <td>山西</td>
+            <td>北京邮电大学</td>
+            <td>
+              <button class="btn btn-warning btn-sm" onclick="editStudent(this)">编辑</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteStudent(this)">删除</button>
+              <a href="http://www.nuc.edu.cn" class="btn btn-info btn-sm" target="_blank">查看详情</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="主页new02.html" class="btn btn-primary">返回首页</a>
+    </div>
+  </div>
+
+  <script>
+    // 添加学生函数
+    function addStudent() {
+      // 获取输入框的值
+      var studentId = document.getElementById("studentId").value;
+      var studentName = document.getElementById("studentName").value;
+      var college = document.getElementById("college").value;
+      var nativePlace = document.getElementById("nativePlace").value;
+      var jobUnit = document.getElementById("jobUnit").value;
+
+      // 验证输入
+      if (!studentId || !studentName || !college || !nativePlace || !jobUnit) {
+        alert('请填写所有学生信息！');
+        return;
+      }
+
+      // 获取表格主体
+      var tableBody = document.getElementById('studentTableBody');
+
+      // 创建新行
+      var newRow = document.createElement('tr');
+
+      // 设置新行内容
+      newRow.innerHTML = `
+        <td>${studentId}</td>
+        <td>${studentName}</td>
+        <td>${college}</td>
+        <td>${nativePlace}</td>
+        <td>${jobUnit}</td>
+        <td>
+          <button class="btn btn-warning btn-sm" onclick="editStudent(this)">编辑</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteStudent(this)">删除</button>
+          <a href="http://www.nuc.edu.cn" class="btn btn-info btn-sm" target="_blank">查看详情</a>
+        </td>
+      `;
+
+      // 添加新行到表格
+      tableBody.appendChild(newRow);
+
+      // 清空输入框
+      document.getElementById("studentId").value = '';
+      document.getElementById("studentName").value = '';
+      document.getElementById("college").value = '';
+      document.getElementById("nativePlace").value = '';
+      document.getElementById("jobUnit").value = '';
+
+      alert('学生信息添加成功！');
+    }
+
+    // 编辑学生函数
+    function editStudent(button) {
+      // 获取当前行
+      var row = button.closest('tr');
+      var cells = row.getElementsByTagName('td');
+
+      // 将行数据填充到输入框
+      document.getElementById("studentId").value = cells[0].textContent;
+      document.getElementById("studentName").value = cells[1].textContent;
+      document.getElementById("college").value = cells[2].textContent;
+      document.getElementById("nativePlace").value = cells[3].textContent;
+      document.getElementById("jobUnit").value = cells[4].textContent;
+
+      // 删除当前行（编辑相当于删除后重新添加）
+      row.remove();
+
+      alert('请修改学生信息后点击"添加学生"按钮');
+    }
+
+    // 删除学生函数
+    function deleteStudent(button) {
+      if (confirm('确定要删除这条学生信息吗？')) {
+        var row = button.closest('tr');
+        row.remove();
+      }
+    }
+
+    // 添加事件监听器
+    document.getElementById('addStudentBtn').addEventListener('click', addStudent);
+
+    // 添加回车键提交表单功能
+    document.querySelectorAll('input').forEach(function (input) {
+      input.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          addStudent();
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

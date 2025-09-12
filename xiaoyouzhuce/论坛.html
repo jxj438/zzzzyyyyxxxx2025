@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>校园论坛 - 首页</title>
+  <!-- 新 Bootstrap5 核心 CSS 文件 -->
+  <link rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+  <!-- Font Awesome 图标库 -->
+  <link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+  <script src="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      padding-top: 20px;
+    }
+
+    a {
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: red;
+    }
+
+    .container {
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      padding: 20px 0;
+      border-bottom: 2px solid #eee;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .search-container {
+      margin-top: 10px;
+    }
+
+    .forum-section {
+      padding: 30px 20px;
+    }
+
+    .forum-section h1 {
+      color: #333;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #1E9FFF;
+      font-size: 28px;
+    }
+
+    .board-card {
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .board-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .board-icon {
+      font-size: 30px;
+      color: #1E9FFF;
+    }
+
+    .board-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .board-stats {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .latest-topic {
+      font-size: 14px;
+      color: #999;
+    }
+
+    .topic-card {
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .topic-card:hover {
+      background-color: #f8f9fa;
+    }
+
+    .topic-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .topic-meta {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .reply-count {
+      text-align: center;
+    }
+
+    .reply-badge {
+      background-color: #1E9FFF;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-weight: bold;
+    }
+
+    .latest-reply {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .post-form {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .post-content {
+      min-height: 200px;
+    }
+
+    .comment-card {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .comment-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #1E9FFF;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        justify-content: center;
+      }
+
+      .search-container {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body background="bg.jpg">
+  <div class="container bg-white">
+    <!-- 页头 -->
+    <div class="header row align-items-center">
+      <div class="col-md-2 col-sm-12 text-center">
+        <img src="000.jpg" alt="校园系统" class="img-fluid">
+      </div>
+
+      <div class="col-md-7 col-sm-12">
+        <div class="nav-links">
+          <a href="主页new02.html">首页</a>
+          <a href="login.html">登录</a>
+          <a href="gl.html">用户管理</a>
+          <a href="信息录入.html">信息录入</a>
+          <a href="内容管理.html">内容管理</a>
+          <a href="论坛.html">论坛</a>
+          <a href="好友管理.html">好友管理</a>
+          <a href="搜索.html">搜索</a>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-12 search-container">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="搜索论坛内容..." style="height: 30px;">
+          <button class="btn btn-primary" type="button" style="height: 30px; padding: 0 15px;">
+            搜索
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 论坛主体内容 -->
+    <div class="forum-section">
+      <h1><i class="fa fa-comments-o" aria-hidden="true"></i> 校园论坛</h1>
+
+      <!-- 用户操作区 -->
+      <div class="user-actions mb-4 text-right">
+        <button id="createTopicBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTopicModal">
+          <i class="fa fa-pencil" aria-hidden="true"></i> 发布新话题
+        </button>
+      </div>
+
+      <!-- 论坛板块列表 -->
+      <div id="forumBoards" class="mb-5">
+        <h2 class="text-center mb-4">论坛板块</h2>
+
+        <!-- 学术交流板块 -->
+        <div class="board-card card p-4" data-board="academic">
+          <div class="row align-items-center">
+            <div class="col-md-1 text-center">
+              <i class="fa fa-graduation-cap board-icon" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-7">
+              <div class="board-title">学术交流</div>
+              <div class="board-stats">讨论学习方法、课程内容、考试经验等学术相关话题</div>
+              <div class="latest-topic">
+                <i class="fa fa-file-text-o" aria-hidden="true"></i> 最新话题：如何高效备战期末考试？
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <div class="mb-2">
+                <span class="badge bg-primary">52个话题</span>
+                <span class="badge bg-success ms-2">186条回复</span>
+              </div>
+              <button class="btn btn-sm btn-outline-primary view-board-btn">进入板块</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 校园活动板块 -->
+        <div class="board-card card p-4" data-board="activities">
+          <div class="row align-items-center">
+            <div class="col-md-1 text-center">
+              <i class="fa fa-calendar board-icon" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-7">
+              <div class="board-title">校园活动</div>
+              <div class="board-stats">分享校园活动信息、社团招新、志愿者招募等内容</div>
+              <div class="latest-topic">
+                <i class="fa fa-file-text-o" aria-hidden="true"></i> 最新话题：科技创新大赛开始报名啦！
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <div class="mb-2">
+                <span class="badge bg-primary">38个话题</span>
+                <span class="badge bg-success ms-2">124条回复</span>
+              </div>
+              <button class="btn btn-sm btn-outline-primary view-board-btn">进入板块</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 生活分享板块 -->
+        <div class="board-card card p-4" data-board="lifestyle">
+          <div class="row align-items-center">
+            <div class="col-md-1 text-center">
+              <i class="fa fa-coffee board-icon" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-7">
+              <div class="board-title">生活分享</div>
+              <div class="board-stats">分享校园生活、美食推荐、宿舍生活等日常话题</div>
+              <div class="latest-topic">
+                <i class="fa fa-file-text-o" aria-hidden="true"></i> 最新话题：学校周边隐藏的美食地图
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <div class="mb-2">
+                <span class="badge bg-primary">76个话题</span>
+                <span class="badge bg-success ms-2">325条回复</span>
+              </div>
+              <button class="btn btn-sm btn-outline-primary view-board-btn">进入板块</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 求职就业板块 -->
+        <div class="board-card card p-4" data-board="career">
+          <div class="row align-items-center">
+            <div class="col-md-1 text-center">
+              <i class="fa fa-briefcase board-icon" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-7">
+              <div class="board-title">求职就业</div>
+              <div class="board-stats">分享求职经验、实习信息、简历制作技巧等就业相关内容</div>
+              <div class="latest-topic">
+                <i class="fa fa-file-text-o" aria-hidden="true"></i> 最新话题：如何准备互联网公司面试？
+              </div>
+            </div>
+            <div class="col-md-4 text-center">
+              <div class="mb-2">
+                <span class="badge bg-primary">45个话题</span>
+                <span class="badge bg-success ms-2">168条回复</span>
+              </div>
+              <button class="btn btn-sm btn-outline-primary view-board-btn">进入板块</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 话题列表区域 (初始隐藏) -->
+      <div id="topicList" class="mb-5" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2><span id="currentBoardTitle">学术交流</span> 话题列表</h2>
+          <button id="backToBoards" class="btn btn-sm btn-outline-secondary">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> 返回板块列表
+          </button>
+        </div>
+
+        <!-- 排序选项 -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="sort-options">
+            <select class="form-select form-select-sm" id="topicSort">
+              <option value="latest">最新发布</option>
+              <option value="popular">热门讨论</option>
+              <option value="replies">回复最多</option>
+            </select>
+          </div>
+          <div class="search-topics">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" placeholder="搜索话题...">
+              <button class="btn btn-primary" type="button">搜索</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 话题列表 -->
+        <div id="topicsContainer">
+          <!-- 话题1 -->
+          <div class="topic-card card p-3" data-topic="1">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="topic-title mb-1"><a href="#">如何高效备战期末考试？分享我的复习方法</a></div>
+                <div class="topic-meta">
+                  <span>作者: <a href="#">学霸小明</a></span>
+                  <span class="mx-2">•</span>
+                  <span>发布时间: 2023-06-15</span>
+                  <span class="mx-2">•</span>
+                  <span>浏览: 258</span>
+                </div>
+              </div>
+              <div class="col-md-3 reply-count">
+                <span class="reply-badge">24</span>
+                <div class="text-muted mt-1">回复</div>
+              </div>
+              <div class="col-md-3">
+                <div class="latest-reply">
+                  <div>最新回复: <a href="#">学渣小王</a></div>
+                  <div>2023-06-17 14:30</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 话题2 -->
+          <div class="topic-card card p-3" data-topic="2">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="topic-title mb-1"><a href="#">计算机科学专业有哪些值得学习的编程语言？</a></div>
+                <div class="topic-meta">
+                  <span>作者: <a href="#">程序员小李</a></span>
+                  <span class="mx-2">•</span>
+                  <span>发布时间: 2023-06-10</span>
+                  <span class="mx-2">•</span>
+                  <span>浏览: 342</span>
+                </div>
+              </div>
+              <div class="col-md-3 reply-count">
+                <span class="reply-badge">38</span>
+                <div class="text-muted mt-1">回复</div>
+              </div>
+              <div class="col-md-3">
+                <div class="latest-reply">
+                  <div>最新回复: <a href="#">技术大牛</a></div>
+                  <div>2023-06-16 09:15</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 话题3 -->
+          <div class="topic-card card p-3" data-topic="3">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="topic-title mb-1"><a href="#">高等数学学习心得与笔记分享</a></div>
+                <div class="topic-meta">
+                  <span>作者: <a href="#">数学爱好者</a></span>
+                  <span class="mx-2">•</span>
+                  <span>发布时间: 2023-06-05</span>
+                  <span class="mx-2">•</span>
+                  <span>浏览: 198</span>
+                </div>
+              </div>
+              <div class="col-md-3 reply-count">
+                <span class="reply-badge">16</span>
+                <div class="text-muted mt-1">回复</div>
+              </div>
+              <div class="col-md-3">
+                <div class="latest-reply">
+                  <div>最新回复: <a href="#">数学小白</a></div>
+                  <div>2023-06-15 16:45</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 分页 -->
+        <div class="mt-4 text-center">
+          <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <!-- 帖子详情区域 (初始隐藏) -->
+      <div id="topicDetail" class="mb-5" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 id="topicDetailTitle">如何高效备战期末考试？分享我的复习方法</h2>
+          <div>
+            <button id="backToTopics" class="btn btn-sm btn-outline-secondary">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i> 返回话题列表
+            </button>
+            <button class="btn btn-sm btn-outline-primary ms-2" data-bs-toggle="modal"
+              data-bs-target="#createReplyModal">
+              <i class="fa fa-reply" aria-hidden="true"></i> 回复
+            </button>
+          </div>
+        </div>
+
+        <!-- 帖子内容 -->
+        <div class="card mb-5">
+          <div class="card-header bg-primary text-white">
+            <div class="row align-items-center">
+              <div class="col-md-1">
+                <div class="comment-avatar">小</div>
+              </div>
+              <div class="col-md-11">
+                <div class="font-weight-bold">学霸小明</div>
+                <div class="text-sm opacity-80">发布于: 2023-06-15 10:00</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="post-content">
+              <p>大家好，期末考试临近，今天想和大家分享一下我的高效复习方法，希望能帮助到大家：</p>
+              <ol>
+                <li><strong>制定合理的复习计划</strong>
+                  <ul>
+                    <li>根据考试时间安排，制定详细的复习时间表</li>
+                    <li>优先复习重点和难点内容</li>
+                    <li>每天保证足够的复习时间，但也要注意休息</li>
+                  </ul>
+                </li>
+                <li><strong>采用科学的记忆方法</strong>
+                  <ul>
+                    <li>利用艾宾浩斯遗忘曲线进行复习</li>
+                    <li>制作思维导图整理知识点</li>
+                    <li>通过做题巩固所学内容</li>
+                  </ul>
+                </li>
+                <li><strong>保持良好的学习环境</strong>
+                  <ul>
+                    <li>选择安静、整洁的学习场所</li>
+                    <li>关闭手机通知，避免干扰</li>
+                    <li>适当使用学习工具辅助复习</li>
+                  </ul>
+                </li>
+              </ol>
+              <p>以上就是我的一些复习心得，欢迎大家在评论区分享自己的复习方法，我们一起交流学习！</p>
+            </div>
+            <div class="mt-4">
+              <button class="btn btn-sm btn-outline-secondary like-btn"><i class="fa fa-thumbs-up"
+                  aria-hidden="true"></i> 点赞 (24)</button>
+              <button class="btn btn-sm btn-outline-secondary share-btn ml-2"><i class="fa fa-share-alt"
+                  aria-hidden="true"></i> 分享</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 评论列表 -->
+        <div class="mt-5">
+          <h3><i class="fa fa-comments" aria-hidden="true"></i> 评论列表 (24)</h3>
+          <hr>
+
+          <!-- 评论1 -->
+          <div class="comment-card">
+            <div class="row">
+              <div class="col-md-1">
+                <div class="comment-avatar">学</div>
+              </div>
+              <div class="col-md-11">
+                <div class="font-weight-bold">学渣小王</div>
+                <div class="text-sm text-muted mb-2">回复于: 2023-06-17 14:30</div>
+                <div class="comment-content">
+                  <p>谢谢分享！我一直很困惑如何制定有效的复习计划，你的方法看起来很实用，我会尝试一下。另外，想问一下你一般每天复习多长时间？</p>
+                </div>
+                <div class="mt-2">
+                  <button class="btn btn-xs btn-outline-secondary reply-like-btn"><i class="fa fa-thumbs-up"
+                      aria-hidden="true"></i> 12</button>
+                  <button class="btn btn-xs btn-outline-secondary reply-to-btn ml-2">回复</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 评论2 -->
+          <div class="comment-card">
+            <div class="row">
+              <div class="col-md-1">
+                <div class="comment-avatar">小</div>
+              </div>
+              <div class="col-md-11">
+                <div class="font-weight-bold">学霸小明</div>
+                <div class="text-sm text-muted mb-2">回复于: 2023-06-17 15:45</div>
+                <div class="comment-content">
+                  <p>@学渣小王 你好！我一般每天复习6-8小时，但会分成几个时间段，每学习1-2小时就休息15-20分钟，这样效率会更高。每个人的情况不同，你可以根据自己的情况调整。</p>
+                </div>
+                <div class="mt-2">
+                  <button class="btn btn-xs btn-outline-secondary reply-like-btn"><i class="fa fa-thumbs-up"
+                      aria-hidden="true"></i> 8</button>
+                  <button class="btn btn-xs btn-outline-secondary reply-to-btn ml-2">回复</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 评论3 -->
+          <div class="comment-card">
+            <div class="row">
+              <div class="col-md-1">
+                <div class="comment-avatar">大</div>
+              </div>
+              <div class="col-md-11">
+                <div class="font-weight-bold">大学生小张</div>
+                <div class="text-sm text-muted mb-2">回复于: 2023-06-16 09:15</div>
+                <div class="comment-content">
+                  <p>思维导图这个方法确实很不错，可以帮助梳理知识点之间的联系。我还会使用闪卡来记忆一些重要的概念和公式，大家也可以试试！</p>
+                </div>
+                <div class="mt-2">
+                  <button class="btn btn-xs btn-outline-secondary reply-like-btn"><i class="fa fa-thumbs-up"
+                      aria-hidden="true"></i> 15</button>
+                  <button class="btn btn-xs btn-outline-secondary reply-to-btn ml-2">回复</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 分页 -->
+        <div class="mt-4 text-center">
+          <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 创建新话题模态框 -->
+  <div class="modal fade" id="createTopicModal" tabindex="-1" aria-labelledby="createTopicModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createTopicModalLabel">发布新话题</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="createTopicForm">
+            <div class="mb-3">
+              <label for="topicBoard" class="form-label">选择板块</label>
+              <select class="form-select" id="topicBoard" required>
+                <option value="academic">学术交流</option>
+                <option value="activities">校园活动</option>
+                <option value="lifestyle">生活分享</option>
+                <option value="career">求职就业</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="topicTitle" class="form-label">话题标题</label>
+              <input type="text" class="form-control" id="topicTitle" placeholder="请输入话题标题" required>
+            </div>
+            <div class="mb-3">
+              <label for="topicContent" class="form-label">话题内容</label>
+              <textarea class="form-control" id="topicContent" rows="8" placeholder="请输入话题内容" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="topicTags" class="form-label">添加标签 (用逗号分隔)</label>
+              <input type="text" class="form-control" id="topicTags" placeholder="例如: 学习方法, 考试, 复习">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" id="submitTopicBtn">发布话题</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 回复模态框 -->
+  <div class="modal fade" id="createReplyModal" tabindex="-1" aria-labelledby="createReplyModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createReplyModalLabel">回复话题</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="createReplyForm">
+            <div class="mb-3">
+              <label for="replyContent" class="form-label">回复内容</label>
+              <textarea class="form-control" id="replyContent" rows="4" placeholder="请输入回复内容" required></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" id="submitReplyBtn">提交回复</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 论坛功能逻辑
+    document.addEventListener('DOMContentLoaded', function () {
+      // 获取DOM元素
+      const forumBoards = document.getElementById('forumBoards');
+      const topicList = document.getElementById('topicList');
+      const topicDetail = document.getElementById('topicDetail');
+      const currentBoardTitle = document.getElementById('currentBoardTitle');
+      const backToBoards = document.getElementById('backToBoards');
+      const backToTopics = document.getElementById('backToTopics');
+      const submitTopicBtn = document.getElementById('submitTopicBtn');
+      const submitReplyBtn = document.getElementById('submitReplyBtn');
+
+      // 查看板块
+      document.querySelectorAll('.view-board-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const board = this.closest('.board-card').getAttribute('data-board');
+          const boardTitle = this.closest('.board-card').querySelector('.board-title').textContent;
+
+          currentBoardTitle.textContent = boardTitle;
+          forumBoards.style.display = 'none';
+          topicList.style.display = 'block';
+          topicDetail.style.display = 'none';
+        });
+      });
+
+      // 返回板块列表
+      backToBoards.addEventListener('click', function () {
+        forumBoards.style.display = 'block';
+        topicList.style.display = 'none';
+        topicDetail.style.display = 'none';
+      });
+
+      // 查看话题详情
+      document.querySelectorAll('.topic-card').forEach(card => {
+        card.addEventListener('click', function () {
+          const topicId = this.getAttribute('data-topic');
+          const topicTitle = this.querySelector('.topic-title a').textContent;
+
+          document.getElementById('topicDetailTitle').textContent = topicTitle;
+          forumBoards.style.display = 'none';
+          topicList.style.display = 'none';
+          topicDetail.style.display = 'block';
+        });
+      });
+
+      // 返回话题列表
+      backToTopics.addEventListener('click', function () {
+        forumBoards.style.display = 'none';
+        topicList.style.display = 'block';
+        topicDetail.style.display = 'none';
+      });
+
+      // 发布新话题
+      submitTopicBtn.addEventListener('click', function () {
+        const board = document.getElementById('topicBoard').value;
+        const title = document.getElementById('topicTitle').value;
+        const content = document.getElementById('topicContent').value;
+        const tags = document.getElementById('topicTags').value;
+
+        if (title && content) {
+          // 模拟发布话题
+          alert('话题发布成功！\n\n标题: ' + title + '\n板块: ' + board + '\n标签: ' + tags);
+
+          // 关闭模态框并清空表单
+          document.getElementById('createTopicModal').querySelector('.btn-close').click();
+          document.getElementById('createTopicForm').reset();
+        } else {
+          alert('请填写完整的话题信息！');
+        }
+      });
+
+      // 提交回复
+      submitReplyBtn.addEventListener('click', function () {
+        const replyContent = document.getElementById('replyContent').value;
+
+        if (replyContent) {
+          // 模拟提交回复
+          alert('回复提交成功！\n\n内容: ' + replyContent);
+
+          // 关闭模态框并清空表单
+          document.getElementById('createReplyModal').querySelector('.btn-close').click();
+          document.getElementById('createReplyForm').reset();
+        } else {
+          alert('请填写回复内容！');
+        }
+      });
+
+      // 点赞功能
+      document.querySelectorAll('.like-btn, .reply-like-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const icon = this.querySelector('i');
+          const count = parseInt(this.textContent.match(/\d+/)[0]);
+
+          if (icon.style.color === 'red') {
+            icon.style.color = '';
+            this.textContent = this.textContent.replace(count, count - 1);
+          } else {
+            icon.style.color = 'red';
+            this.textContent = this.textContent.replace(count, count + 1);
+          }
+        });
+      });
+
+      // 回复评论功能
+      document.querySelectorAll('.reply-to-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const username = this.closest('.comment-card').querySelector('.font-weight-bold').textContent;
+          document.getElementById('replyContent').value = '@' + username + ' ';
+          document.getElementById('createReplyModal').querySelector('.btn-close').click();
+          // 重新打开模态框
+          setTimeout(() => {
+            const replyModal = new bootstrap.Modal(document.getElementById('createReplyModal'));
+            replyModal.show();
+          }, 100);
+        });
+      });
+
+      // 话题排序功能
+      document.getElementById('topicSort').addEventListener('change', function () {
+        const sortBy = this.value;
+        alert('按' + (sortBy === 'latest' ? '最新发布' : sortBy === 'popular' ? '热门讨论' : '回复最多') + '排序');
+        // 实际应用中这里应该重新排序话题列表
+      });
+    });
+  </script>
+</body>
+
+</html>

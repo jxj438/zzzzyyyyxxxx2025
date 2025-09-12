@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>搜索 - 学生注册系统</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+
+  <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+  <script src="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    }
+
+    .search-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    .search-header {
+      margin-bottom: 2rem;
+    }
+
+    .search-input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-input {
+      height: 3.5rem;
+      border-radius: 2rem;
+      padding-left: 3rem;
+      font-size: 1.1rem;
+      border: 2px solid #e9ecef;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      border-color: #0d6efd;
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
+      outline: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+    }
+
+    .search-btn {
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 2.5rem;
+      width: 8rem;
+      border-radius: 1.5rem;
+      background-color: #0d6efd;
+      border: none;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .search-btn:hover {
+      background-color: #0a58ca;
+      transform: translateY(-50%) translateX(-2px);
+    }
+
+    .filter-tabs {
+      border-bottom: 2px solid #e9ecef;
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-tab {
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      color: #6c757d;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+    }
+
+    .filter-tab.active {
+      color: #0d6efd;
+      border-bottom-color: #0d6efd;
+      font-weight: 500;
+    }
+
+    .filter-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 1.5rem;
+      border: 1px solid #dee2e6;
+      background-color: white;
+      color: #495057;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .filter-btn.active {
+      background-color: #0d6efd;
+      color: white;
+      border-color: #0d6efd;
+    }
+
+    .result-item {
+      background-color: white;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .result-item:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .result-title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #0d6efd;
+      margin-bottom: 0.5rem;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .result-title:hover {
+      color: #0a58ca;
+      text-decoration: underline;
+    }
+
+    .result-meta {
+      display: flex;
+      gap: 1rem;
+      color: #6c757d;
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .result-summary {
+      color: #495057;
+      line-height: 1.6;
+    }
+
+    .result-highlight {
+      background-color: #fff3cd;
+      padding: 0 0.2rem;
+    }
+
+    .empty-results {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #6c757d;
+    }
+
+    .empty-results i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .filter-options {
+        justify-content: center;
+      }
+
+      .result-meta {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body background="bg.jpg">
+  <div class="container-fluid">
+    <div class="search-container">
+      <!-- 搜索头部 -->
+      <div class="search-header text-center">
+        <h1 class="mb-4" style="color: #f4f4f4;">搜索</h1>
+        <a href="主页new02.html" class="btn btn-primary">返回主页</a>
+        <a href="ss.html" class="ss btn btn-primary">数据显示</a>
+        <p class="text-muted mb-5">输入关键词，查找您需要的信息</p>
+      </div>
+
+      <!-- 搜索框 -->
+      <div class="search-input-group">
+        <span class="search-icon"><i class="fa fa-search fa-lg"></i></span>
+        <input type="text" id="search-input" class="search-input form-control w-100" placeholder="请输入搜索关键词">
+        <button id="search-button" class="search-btn btn">
+          <i class="fa fa-search mr-1"></i> 搜索
+        </button>
+      </div>
+
+      <!-- 搜索筛选 -->
+      <div class="filter-tabs d-flex justify-content-center">
+        <div class="filter-tab active" data-type="all">全部</div>
+        <div class="filter-tab" data-type="news">资讯</div>
+        <div class="filter-tab" data-type="resource">资源</div>
+        <div class="filter-tab" data-type="user">用户</div>
+        <div class="filter-tab" data-type="forum">论坛</div>
+      </div>
+
+      <!-- 高级筛选选项 -->
+      <div class="filter-options justify-content-center">
+        <button class="filter-btn active" data-time="all">全部时间</button>
+        <button class="filter-btn" data-time="day">一天内</button>
+        <button class="filter-btn" data-time="week">一周内</button>
+        <button class="filter-btn" data-time="month">一月内</button>
+      </div>
+
+      <!-- 搜索结果 -->
+      <div id="search-results" class="results-container">
+        <!-- 结果示例 -->
+        <div class="result-item">
+          <a href="#" class="result-title">2023年度学生科技创新大赛通知</a>
+          <div class="result-meta">
+            <span><i class="fa fa-folder-o mr-1"></i> 资讯</span>
+            <span><i class="fa fa-user-o mr-1"></i> 管理员</span>
+            <span><i class="fa fa-clock-o mr-1"></i> 2023-09-15</span>
+            <span><i class="fa fa-eye mr-1"></i> 1243</span>
+          </div>
+          <p class="result-summary">
+            为激发学生创新精神，提高学生实践能力，学校决定举办2023年度学生科技创新大赛。本次大赛面向全体在校学生，分为自然科学类学术论文、科技发明制作、哲学社会科学类社会调查报告和学术论文三大类。请各学院积极组织学生报名参加...
+          </p>
+        </div>
+
+        <div class="result-item">
+          <a href="#" class="result-title">高等数学（上）学习资料合集</a>
+          <div class="result-meta">
+            <span><i class="fa fa-folder-o mr-1"></i> 资源</span>
+            <span><i class="fa fa-user-o mr-1"></i> 学习委员</span>
+            <span><i class="fa fa-clock-o mr-1"></i> 2023-09-10</span>
+            <span><i class="fa fa-download mr-1"></i> 876</span>
+          </div>
+          <p class="result-summary">
+            本资源包包含高等数学（上）的课程讲义、习题解答、模拟试卷等学习资料，适合大一新生和需要复习的同学使用。资源包中的内容均为优秀教师整理，希望能帮助同学们更好地学习高等数学这门课程...</p>
+        </div>
+
+        <div class="result-item">
+          <a href="#" class="result-title">如何高效备考英语四级考试？</a>
+          <div class="result-meta">
+            <span><i class="fa fa-folder-o mr-1"></i> 论坛</span>
+            <span><i class="fa fa-user-o mr-1"></i> 英语爱好者</span>
+            <span><i class="fa fa-clock-o mr-1"></i> 2023-09-05</span>
+            <span><i class="fa fa-comment-o mr-1"></i> 42</span>
+          </div>
+          <p class="result-summary">
+            还有一个月就要考英语四级了，大家有什么好的备考方法吗？我现在主要是背单词和做真题，但感觉效果不是很理想。特别是听力部分，总是错很多。希望有经验的同学能分享一下备考经验和技巧...</p>
+        </div>
+
+        <!-- 分页 -->
+        <nav class="pagination" aria-label="Page navigation">
+          <ul class="pagination">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      // 搜索功能
+      $('#search-button').click(function () {
+        performSearch();
+      });
+
+      // 回车键搜索
+      $('#search-input').keypress(function (e) {
+        if (e.which == 13) {
+          performSearch();
+        }
+      });
+
+      // 执行搜索
+      function performSearch() {
+        const keyword = $('#search-input').val().trim();
+        if (keyword === '') {
+          alert('请输入搜索关键词');
+          return;
+        }
+
+        // 这里可以添加实际的搜索逻辑
+        console.log('搜索关键词:', keyword);
+
+        // 模拟搜索加载
+        $('#search-results').html('<div class="text-center py-5"><i class="fa fa-spinner fa-spin fa-3x text-muted"></i></div>');
+
+        // 模拟搜索结果加载延迟
+        setTimeout(function () {
+          // 在实际应用中，这里应该是从服务器获取的搜索结果
+          // 这里只是简单地显示现有的结果作为示例
+          const resultsHtml = generateSampleResults(keyword);
+          $('#search-results').html(resultsHtml);
+        }, 1000);
+      }
+
+      // 生成示例搜索结果（实际应用中应替换为真实数据）
+      function generateSampleResults(keyword) {
+        // 如果关键词为空，显示空结果
+        if (!keyword) {
+          return `
+            <div class="empty-results">
+              <i class="fa fa-search"></i>
+              <h3>请输入搜索关键词</h3>
+              <p>输入关键词后，我们将为您查找相关信息</p>
+            </div>
+          `;
+        }
+
+        // 这里应该根据实际搜索结果生成HTML
+        // 这里只是返回示例结果
+        const originalResults = `
+          <div class="result-item">
+            <a href="#" class="result-title">2023年度学生科技创新大赛通知</a>
+            <div class="result-meta">
+              <span><i class="fa fa-folder-o mr-1"></i> 资讯</span>
+              <span><i class="fa fa-user-o mr-1"></i> 管理员</span>
+              <span><i class="fa fa-clock-o mr-1"></i> 2023-09-15</span>
+              <span><i class="fa fa-eye mr-1"></i> 1243</span>
+            </div>
+            <p class="result-summary">为激发学生创新精神，提高学生实践能力，学校决定举办2023年度学生科技创新大赛。本次大赛面向全体在校学生，分为自然科学类学术论文、科技发明制作、哲学社会科学类社会调查报告和学术论文三大类。请各学院积极组织学生报名参加...</p>
+          </div>
+          
+          <div class="result-item">
+            <a href="#" class="result-title">高等数学（上）学习资料合集</a>
+            <div class="result-meta">
+              <span><i class="fa fa-folder-o mr-1"></i> 资源</span>
+              <span><i class="fa fa-user-o mr-1"></i> 学习委员</span>
+              <span><i class="fa fa-clock-o mr-1"></i> 2023-09-10</span>
+              <span><i class="fa fa-download mr-1"></i> 876</span>
+            </div>
+            <p class="result-summary">本资源包包含高等数学（上）的课程讲义、习题解答、模拟试卷等学习资料，适合大一新生和需要复习的同学使用。资源包中的内容均为优秀教师整理，希望能帮助同学们更好地学习高等数学这门课程...</p>
+          </div>
+          
+          <div class="result-item">
+            <a href="#" class="result-title">如何高效备考英语四级考试？</a>
+            <div class="result-meta">
+              <span><i class="fa fa-folder-o mr-1"></i> 论坛</span>
+              <span><i class="fa fa-user-o mr-1"></i> 英语爱好者</span>
+              <span><i class="fa fa-clock-o mr-1"></i> 2023-09-05</span>
+              <span><i class="fa fa-comment-o mr-1"></i> 42</span>
+            </div>
+            <p class="result-summary">还有一个月就要考英语四级了，大家有什么好的备考方法吗？我现在主要是背单词和做真题，但感觉效果不是很理想。特别是听力部分，总是错很多。希望有经验的同学能分享一下备考经验和技巧...</p>
+          </div>
+          
+          <!-- 分页 -->
+          <nav class="pagination" aria-label="Page navigation">
+            <ul class="pagination">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        `;
+
+        // 在实际应用中，这里可以根据关键词高亮显示结果
+        // 这里简单地返回原始结果
+        return originalResults;
+      }
+
+      // 筛选标签切换
+      $('.filter-tab').click(function () {
+        $('.filter-tab').removeClass('active');
+        $(this).addClass('active');
+
+        const type = $(this).data('type');
+        console.log('筛选类型:', type);
+        // 这里可以添加实际的筛选逻辑
+      });
+
+      // 时间筛选按钮切换
+      $('.filter-btn').click(function () {
+        const parent = $(this).parent('.filter-options');
+        parent.find('.filter-btn').removeClass('active');
+        $(this).addClass('active');
+
+        const time = $(this).data('time');
+        console.log('时间筛选:', time);
+        // 这里可以添加实际的时间筛选逻辑
+      });
+
+      // 分页点击事件
+      $('.pagination').on('click', '.page-link', function (e) {
+        e.preventDefault();
+        const page = $(this).text().trim();
+        console.log('跳转到页码:', page);
+        // 这里可以添加实际的分页逻辑
+      });
+
+      // 初始化页面
+      function init() {
+        // 聚焦搜索框
+        $('#search-input').focus();
+      }
+
+      // 初始化
+      init();
+    });
+  </script>
+</body>
+
+</html>

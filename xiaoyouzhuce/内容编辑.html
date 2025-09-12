@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>编辑内容 - 校园注册系统</title>
+  <!-- 新 Bootstrap5 核心 CSS 文件 -->
+  <link rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+
+  <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+  <script src="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+
+  <!-- 引入富文本编辑器 -->
+  <script src="https://cdn.jsdelivr.net/npm/wangeditor@4.7.15/dist/wangEditor.min.js"></script>
+
+  <style>
+    body {
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      padding-top: 20px;
+    }
+
+    a {
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: red;
+    }
+
+    .container {
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      padding: 20px 0;
+      border-bottom: 2px solid #eee;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .edit-section {
+      padding: 30px 20px;
+    }
+
+    .edit-section h1 {
+      color: #333;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #1E9FFF;
+      font-size: 28px;
+    }
+
+    .form-container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .editor-container {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+
+    .btn-group {
+      margin-top: 20px;
+    }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .form-control.is-invalid {
+      border-color: #dc3545;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container bg-white">
+    <!-- 页头 -->
+    <div class="header row align-items-center">
+      <div class="col-md-2 col-sm-12 text-center">
+        <img src="000.jpg" alt="校园系统" class="img-fluid">
+      </div>
+
+      <div class="col-md-7 col-sm-12">
+        <div class="nav-links">
+          <a href="主页new02.html">首页</a>
+          <a href="login.html">登录</a>
+          <a href="gl.html">用户管理</a>
+          <a href="信息录入.html">信息录入</a>
+          <a href="content_manage.html">内容管理</a>
+          <a href="论坛.html">论坛</a>
+          <a href="好友管理.html">好友管理</a>
+          <a href="搜索.html">搜索</a>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-12 search-container">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="搜索..." style="height: 30px;">
+          <button class="btn btn-primary" type="button" style="height: 30px; padding: 0 15px;">
+            搜索
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 内容编辑区域 -->
+    <div class="edit-section">
+      <h1>编辑内容</h1>
+
+      <div class="form-container">
+        <form id="editForm">
+          <!-- 内容ID（隐藏字段） -->
+          <input type="hidden" id="contentId" value="1">
+
+          <!-- 内容类型 -->
+          <div class="mb-3">
+            <label for="contentType" class="form-label">内容类型 <span class="text-danger">*</span></label>
+            <select class="form-select" id="contentType" required>
+              <option value="">请选择内容类型</option>
+              <option value="news">学校动态</option>
+              <option value="alumni">校友风采</option>
+              <option value="study">学习资料</option>
+              <option value="job">招聘信息</option>
+            </select>
+            <div class="error-message" id="contentTypeError"></div>
+          </div>
+
+          <!-- 标题 -->
+          <div class="mb-3">
+            <label for="title" class="form-label">标题 <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="title" placeholder="请输入内容标题" maxlength="100" required>
+            <div class="error-message" id="titleError"></div>
+          </div>
+
+          <!-- 封面图片 -->
+          <div class="mb-3">
+            <label for="coverImage" class="form-label">封面图片</label>
+            <input type="file" class="form-control" id="coverImage" accept="image/*">
+            <div class="mt-2" id="imagePreview">
+              <img id="previewImg" src="https://dummyimage.com/300x200/1E9FFF/ffffff&text=校园活动" alt="预览图片"
+                style="max-width: 200px; max-height: 150px;">
+              <button type="button" class="btn btn-danger btn-sm ml-2" onclick="removePreview()">删除</button>
+            </div>
+          </div>
+
+          <!-- 内容标签 -->
+          <div class="mb-3">
+            <label for="tags" class="form-label">内容标签</label>
+            <input type="text" class="form-control" id="tags" placeholder="请输入内容标签，多个标签用逗号分隔" maxlength="200">
+            <small class="form-text text-muted">例如：活动,科技,创新</small>
+          </div>
+
+          <!-- 内容正文 -->
+          <div class="mb-3">
+            <label class="form-label">内容正文 <span class="text-danger">*</span></label>
+            <div id="editor"></div>
+            <div class="error-message" id="contentError"></div>
+          </div>
+
+          <!-- 状态选择 -->
+          <div class="mb-3">
+            <label class="form-label">状态</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="statusPublished" value="published" checked>
+              <label class="form-check-label" for="statusPublished">已发布</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="statusDraft" value="draft">
+              <label class="form-check-label" for="statusDraft">草稿</label>
+            </div>
+          </div>
+
+          <!-- 操作按钮 -->
+          <div class="btn-group">
+            <a href="内容详细.html" type="submit" class="btn btn-primary" id="updateBtn">更新</a>
+            <button type="button" class="btn btn-secondary ml-2" id="saveDraftBtn">保存为草稿</button>
+            <a href="内容管理.html" class="btn btn-danger ml-2">取消</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 初始化富文本编辑器
+    const editor = new wangEditor('#editor');
+    editor.config.menus = [
+      'bold', 'italic', 'underline', 'strikeThrough',
+      'header', 'fontSize', 'fontName', 'foreColor', 'backColor',
+      'link', 'list', 'justify', 'quote', 'emoticon', 'image', 'table', 'code', 'undo', 'redo'
+    ];
+    editor.config.uploadImgShowBase64 = true; // 使用 base64 保存图片
+    editor.create();
+
+    // 获取URL参数
+    function getUrlParams() {
+      const params = {};
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.forEach((value, key) => {
+        params[key] = value;
+      });
+      return params;
+    }
+
+    // 加载内容数据
+    function loadContentData() {
+      const params = getUrlParams();
+      const contentId = params.id || '1';
+      document.getElementById('contentId').value = contentId;
+
+      // 模拟从服务器加载数据
+      console.log(`加载内容ID：${contentId}`);
+
+      // 根据不同的ID设置不同的内容（示例）
+      if (contentId === '1') {
+        document.getElementById('contentType').value = 'news';
+        document.getElementById('title').value = '校园科技创新大赛即将举行，报名通道已开启';
+        document.getElementById('tags').value = '活动,科技,创新';
+        editor.txt.html(`<p>为激发学生创新潜能，培养实践能力，我校将于7月15日至7月20日举办2023年度校园科技创新大赛。本次大赛旨在为广大学生提供一个展示创新才华、交流科技成果的平台，促进学生之间的学术交流与合作。</p>
+<h3>大赛主题</h3>
+<p>创新驱动未来，科技引领发展</p>
+<h3>参赛对象</h3>
+<p>全体在校学生（本科生、研究生），可以个人或团队形式参赛（团队人数不超过5人）。</p>
+<h3>参赛领域</h3>
+<ul>
+<li>人工智能与大数据分析</li>
+<li>环保技术与可持续发展</li>
+<li>医疗健康与生物科技</li>
+<li>智能制造与机器人技术</li>
+<li>物联网与智能家居</li>
+<li>其他具有创新性的科技项目</li>
+</ul>`);
+        document.getElementById('statusPublished').checked = true;
+      } else if (contentId === '2') {
+        document.getElementById('contentType').value = 'alumni';
+        document.getElementById('title').value = '知名学者将莅临我校开展学术讲座系列活动';
+        document.getElementById('tags').value = '校友,学术,讲座';
+        editor.txt.html(`<p>为拓展学生视野，提升学术氛围，我校邀请了多位优秀校友开展为期两周的学术讲座系列活动。讲座内容涵盖计算机科学、生命科学、人文社会科学等多个学科领域。</p>
+<h3>讲座安排</h3>
+<p>讲座将于7月1日开始，每周一、三、五下午2点在学术报告厅举行，具体安排请关注校园公告。</p>`);
+        document.getElementById('statusPublished').checked = true;
+      } else if (contentId === '3') {
+        document.getElementById('contentType').value = 'study';
+        document.getElementById('title').value = '2023年度毕业生就业指南';
+        document.getElementById('tags').value = '就业,指南,毕业生';
+        editor.txt.html(`<p>为帮助2023届毕业生顺利就业，我校学生就业指导中心精心编写了《2023年度毕业生就业指南》，内容包括就业政策解读、简历制作技巧、面试准备、签约注意事项等方面。</p>
+<p>指南已上传至学校就业信息网，毕业生可自行下载查阅。</p>`);
+        document.getElementById('statusPublished').checked = true;
+      } else if (contentId === '4') {
+        document.getElementById('contentType').value = 'job';
+        document.getElementById('title').value = '知名科技企业校园招聘宣讲会安排';
+        document.getElementById('tags').value = '招聘,宣讲会,科技企业';
+        editor.txt.html(`<p>为搭建校企合作平台，促进学生就业，我校将于近期举办系列校园招聘宣讲会。包括阿里巴巴、腾讯、百度、华为等知名科技企业将陆续来校开展招聘宣讲活动。</p>
+<h3>宣讲会安排</h3>
+<p>具体时间地点请关注学校就业信息网和各学院通知。</p>`);
+        document.getElementById('statusPublished').checked = true;
+      } else if (contentId === '5') {
+        document.getElementById('contentType').value = 'news';
+        document.getElementById('title').value = '校园文化艺术节策划方案';
+        document.getElementById('tags').value = '文化,艺术,活动';
+        editor.txt.html(`<p>为丰富校园文化生活，展现我校学生的艺术才华和精神风貌，我校计划于9月举办校园文化艺术节。</p>
+<h3>活动内容</h3>
+<ul>
+<li>校园歌手大赛</li>
+<li>舞蹈比赛</li>
+<li>书法绘画展览</li>
+<li>摄影比赛</li>
+<li>戏剧表演</li>
+</ul>
+<h3>筹备工作</h3>
+<p>现面向全校师生征集活动创意和建议，请于8月1日前将您的想法发送至邮箱：artfestival@example.edu。</p>`);
+        document.getElementById('statusDraft').checked = true;
+      }
+    }
+
+    // 表单验证
+    function validateForm(type) {
+      let isValid = true;
+
+      // 验证内容类型
+      const contentType = document.getElementById('contentType').value;
+      const contentTypeError = document.getElementById('contentTypeError');
+      if (!contentType) {
+        contentTypeError.textContent = '请选择内容类型';
+        contentTypeError.style.display = 'block';
+        isValid = false;
+      } else {
+        contentTypeError.style.display = 'none';
+      }
+
+      // 验证标题
+      const title = document.getElementById('title').value.trim();
+      const titleError = document.getElementById('titleError');
+      if (!title) {
+        titleError.textContent = '请输入内容标题';
+        titleError.style.display = 'block';
+        isValid = false;
+      } else if (title.length > 100) {
+        titleError.textContent = '标题长度不能超过100个字符';
+        titleError.style.display = 'block';
+        isValid = false;
+      } else {
+        titleError.style.display = 'none';
+      }
+
+      // 验证内容正文（发布时必须验证，保存草稿时可选）
+      const content = editor.txt.html();
+      const contentError = document.getElementById('contentError');
+      if (type === 'publish' && !content.trim()) {
+        contentError.textContent = '请输入内容正文';
+        contentError.style.display = 'block';
+        isValid = false;
+      } else {
+        contentError.style.display = 'none';
+      }
+
+      return isValid;
+    }
+
+    // 图片预览
+    document.getElementById('coverImage').addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          document.getElementById('previewImg').src = event.target.result;
+          document.getElementById('imagePreview').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // 移除图片预览
+    function removePreview() {
+      document.getElementById('previewImg').src = '';
+      document.getElementById('imagePreview').style.display = 'none';
+      document.getElementById('coverImage').value = '';
+    }
+
+    // 更新内容
+    document.getElementById('editForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const selectedStatus = document.querySelector('input[name="status"]:checked').value;
+
+      if (validateForm(selectedStatus === 'published' ? 'publish' : 'draft')) {
+        // 收集表单数据
+        const formData = {
+          id: document.getElementById('contentId').value,
+          contentType: document.getElementById('contentType').value,
+          title: document.getElementById('title').value.trim(),
+          tags: document.getElementById('tags').value.trim(),
+          content: editor.txt.html(),
+          status: selectedStatus,
+          updateTime: new Date().toISOString()
+        };
+
+        // 模拟提交到服务器
+        console.log('更新内容：', formData);
+
+        alert('内容更新成功！');
+        window.location.href = 'content_manage.html';
+      }
+    });
+
+    // 保存为草稿
+    document.getElementById('saveDraftBtn').addEventListener('click', function () {
+      if (validateForm('draft')) {
+        // 收集表单数据
+        const formData = {
+          id: document.getElementById('contentId').value,
+          contentType: document.getElementById('contentType').value || '',
+          title: document.getElementById('title').value.trim() || '未命名',
+          tags: document.getElementById('tags').value.trim(),
+          content: editor.txt.html(),
+          status: 'draft',
+          updateTime: new Date().toISOString()
+        };
+
+        // 模拟保存到服务器
+        console.log('保存为草稿：', formData);
+
+        alert('已保存为草稿！');
+        window.location.href = 'content_manage.html';
+      }
+    });
+
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function () {
+      loadContentData();
+    });
+  </script>
+</body>
+
+</html>

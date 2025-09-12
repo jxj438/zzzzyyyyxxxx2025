@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>好友管理 - 校园注册系统</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+
+  <style>
+    body {
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+      color: #333;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+      margin-bottom: 50px;
+      padding: 20px;
+    }
+
+    .nav-links {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 15px 20px;
+      margin-bottom: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .nav-links a {
+      color: #495057;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      background-color: #0d6efd;
+      color: white;
+    }
+
+    .nav-links a[href="#"] {
+      background-color: #0d6efd;
+      color: white;
+      font-weight: bold;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .page-header h1 {
+      color: #2c3e50;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .page-header p {
+      color: #6c757d;
+      font-size: 16px;
+    }
+
+    .search-add-section {
+      margin-bottom: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      display: flex;
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .search-box input {
+      flex: 1;
+      border-radius: 6px 0 0 6px;
+    }
+
+    .search-box button {
+      border-radius: 0 6px 6px 0;
+    }
+
+    #addFriendBtn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    #friendList {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    #friendList th {
+      background-color: #f8f9fa;
+      border-bottom: 2px solid #dee2e6;
+      color: #495057;
+      font-weight: 600;
+    }
+
+    #friendList td {
+      vertical-align: middle;
+      transition: background-color 0.2s ease;
+    }
+
+    #friendList tr:hover td {
+      background-color: #f8f9fa;
+    }
+
+    .btn {
+      transition: all 0.3s ease;
+      margin: 0 4px;
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+
+    .btn i {
+      margin-right: 5px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #6c757d;
+    }
+
+    .empty-state i {
+      font-size: 60px;
+      margin-bottom: 20px;
+      opacity: 0.3;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .modal-content {
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background-color: #0d6efd;
+      color: white;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-label {
+      font-weight: 500;
+    }
+
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1055;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .search-add-section {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+
+      #friendList {
+        font-size: 14px;
+      }
+
+      .btn {
+        padding: 4px 8px;
+        font-size: 12px;
+        margin: 0 2px;
+      }
+
+      .btn i {
+        margin-right: 2px;
+      }
+    }
+  </style>
+</head>
+
+<body background="bg.jpg">
+  <!-- 导航栏 -->
+  <div class="container">
+    <div class="nav-links">
+      <a href="主页new02.html"><i class="fa fa-home"></i> 首页</a>
+      <a href="login.html"><i class="fa fa-sign-in"></i> 登录</a>
+      <a href="gl.html"><i class="fa fa-users"></i> 用户管理</a>
+      <a href="信息录入.html"><i class="fa fa-pencil-square-o"></i> 信息录入</a>
+      <a href="内容管理.html"><i class="fa fa-file-text-o"></i> 内容管理</a>
+      <a href="论坛.html"><i class="fa fa-comments"></i> 论坛</a>
+      <a href="好友管理.html"><i class="fa fa-address-book"></i> 好友管理</a>
+      <a href="搜索.html"><i class="fa fa-search"></i> 搜索</a>
+    </div>
+  </div>
+
+  <!-- 主内容区 -->
+  <div class="container">
+    <!-- 页面标题 -->
+    <div class="page-header">
+      <h1><i class="fa fa-address-book"></i> 好友管理</h1>
+      <p>管理您的好友列表，添加新好友，编辑好友信息，删除好友</p>
+    </div>
+
+    <!-- 搜索和添加区域 -->
+    <div class="search-add-section">
+      <div class="search-box">
+        <input type="text" id="searchInput" class="form-control" placeholder="搜索好友姓名或手机号...">
+        <button id="searchBtn" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button>
+      </div>
+      <button id="addFriendBtn" class="btn btn-success"><i class="fa fa-plus"></i> 添加好友</button>
+    </div>
+
+    <!-- 好友列表表格 -->
+    <table class="table table-hover" id="friendList">
+      <thead>
+        <tr>
+          <th>好友姓名</th>
+          <th>好友手机号</th>
+          <th>好友备注</th>
+          <th>添加时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="friendTableBody">
+        <!-- 好友数据将通过JavaScript动态填充 -->
+      </tbody>
+    </table>
+
+    <!-- 空状态显示 -->
+    <div id="emptyState" class="empty-state d-none">
+      <i class="fa fa-address-book-o"></i>
+      <p>暂无好友</p>
+      <button id="addFirstFriendBtn" class="btn btn-primary mt-3"><i class="fa fa-plus"></i> 添加第一个好友</button>
+    </div>
+
+    <!-- 分页 -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination" id="pagination">
+        <!-- 分页将通过JavaScript动态填充 -->
+      </ul>
+    </nav>
+  </div>
+
+  <!-- 添加/编辑好友的模态框 -->
+  <div class="modal fade" id="friendModal" tabindex="-1" aria-labelledby="friendModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="friendModalLabel">添加好友</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="friendForm">
+            <div class="form-group">
+              <label for="friendName" class="form-label">好友姓名</label>
+              <input type="text" class="form-control" id="friendName" required>
+            </div>
+            <div class="form-group">
+              <label for="friendPhone" class="form-label">好友手机号</label>
+              <input type="tel" class="form-control" id="friendPhone" required pattern="^1[3-9]\d{9}$">
+              <small class="text-muted">请输入11位手机号</small>
+            </div>
+            <div class="form-group">
+              <label for="friendRemark" class="form-label">好友备注</label>
+              <input type="text" class="form-control" id="friendRemark">
+            </div>
+            <input type="hidden" id="friendId">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" id="saveFriendBtn">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 确认删除模态框 -->
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="confirmDeleteModalLabel">确认删除</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>确定要删除好友 <span id="deleteFriendName" class="font-weight-bold"></span> 吗？此操作不可撤销。</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteBtn">确认删除</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 聊天窗口模态框 -->
+  <div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="chatModalLabel">与 <span id="chatFriendName" class="font-weight-bold"></span> 聊天
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="chatMessages" class="overflow-y-auto mb-3"
+            style="height: 300px; background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+            <!-- 聊天消息将通过JavaScript动态填充 -->
+          </div>
+          <div class="input-group">
+            <input type="text" id="messageInput" class="form-control" placeholder="输入消息...">
+            <button type="button" id="sendMessageBtn" class="btn btn-primary"><i class="fa fa-paper-plane"></i>
+              发送</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 通知提示 -->
+  <div class="toast" id="notification" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <i class="fa fa-info-circle mr-2" id="notificationIcon"></i>
+      <strong class="mr-auto" id="notificationTitle">通知</strong>
+      <button type="button" class="ml-2 mb-1 close" data-bs-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body" id="notificationMessage">
+      操作成功！
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // 模拟好友数据
+    let friends = [
+      { id: 1, name: '张三', phone: '13800000000', remark: '大学同学', addTime: '2023-05-15' },
+      { id: 2, name: '李四', phone: '13900000001', remark: '室友', addTime: '2023-04-20' },
+      { id: 3, name: '王五', phone: '13700000002', remark: '社团成员', addTime: '2023-06-08' },
+      { id: 4, name: '赵六', phone: '13600000003', remark: '高中同学', addTime: '2023-03-12' },
+      { id: 5, name: '钱七', phone: '13500000004', remark: '项目合作伙伴', addTime: '2023-07-22' }
+    ];
+
+    let currentPage = 1;
+    const pageSize = 10;
+    let filteredFriends = [...friends];
+    let editingFriendId = null;
+    let deletingFriendId = null;
+    let chattingFriendId = null;
+
+    // DOM元素
+    const friendTableBody = document.getElementById('friendTableBody');
+    const emptyState = document.getElementById('emptyState');
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const addFriendBtn = document.getElementById('addFriendBtn');
+    const addFirstFriendBtn = document.getElementById('addFirstFriendBtn');
+    const friendModal = new bootstrap.Modal(document.getElementById('friendModal'));
+    const friendForm = document.getElementById('friendForm');
+    const friendModalLabel = document.getElementById('friendModalLabel');
+    const friendNameInput = document.getElementById('friendName');
+    const friendPhoneInput = document.getElementById('friendPhone');
+    const friendRemarkInput = document.getElementById('friendRemark');
+    const friendIdInput = document.getElementById('friendId');
+    const saveFriendBtn = document.getElementById('saveFriendBtn');
+    const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+    const deleteFriendName = document.getElementById('deleteFriendName');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const chatModal = new bootstrap.Modal(document.getElementById('chatModal'));
+    const chatFriendName = document.getElementById('chatFriendName');
+    const chatMessages = document.getElementById('chatMessages');
+    const messageInput = document.getElementById('messageInput');
+    const sendMessageBtn = document.getElementById('sendMessageBtn');
+    const notification = new bootstrap.Toast(document.getElementById('notification'));
+    const notificationIcon = document.getElementById('notificationIcon');
+    const notificationTitle = document.getElementById('notificationTitle');
+    const notificationMessage = document.getElementById('notificationMessage');
+    const pagination = document.getElementById('pagination');
+
+    // 初始化页面
+    function initPage() {
+      renderFriendList();
+      renderPagination();
+      addEventListeners();
+    }
+
+    // 渲染好友列表
+    function renderFriendList() {
+      // 清空表格
+      friendTableBody.innerHTML = '';
+
+      // 显示或隐藏空状态
+      if (filteredFriends.length === 0) {
+        emptyState.classList.remove('d-none');
+        friendTableBody.parentElement.classList.add('d-none');
+        pagination.classList.add('d-none');
+        return;
+      }
+
+      emptyState.classList.add('d-none');
+      friendTableBody.parentElement.classList.remove('d-none');
+      pagination.classList.remove('d-none');
+
+      // 分页数据
+      const startIndex = (currentPage - 1) * pageSize;
+      const endIndex = Math.min(startIndex + pageSize, filteredFriends.length);
+      const currentPageFriends = filteredFriends.slice(startIndex, endIndex);
+
+      // 渲染好友列表
+      currentPageFriends.forEach(friend => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${friend.name}</td>
+          <td>${friend.phone}</td>
+          <td>${friend.remark || '-'}</td>
+          <td>${friend.addTime}</td>
+          <td>
+            <button class="btn btn-primary chat-btn" data-id="${friend.id}"><i class="fa fa-comment"></i> 聊一聊</button>
+            <button class="btn btn-success edit-btn" data-id="${friend.id}"><i class="fa fa-pencil"></i> 编辑</button>
+            <button class="btn btn-danger delete-btn" data-id="${friend.id}"><i class="fa fa-trash"></i> 删除</button>
+          </td>
+        `;
+        friendTableBody.appendChild(row);
+      });
+
+      // 绑定操作按钮事件
+      document.querySelectorAll('.chat-btn').forEach(btn => {
+        btn.addEventListener('click', () => openChatModal(parseInt(btn.dataset.id)));
+      });
+
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => openEditModal(parseInt(btn.dataset.id)));
+      });
+
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => openDeleteModal(parseInt(btn.dataset.id)));
+      });
+    }
+
+    // 渲染分页
+    function renderPagination() {
+      pagination.innerHTML = '';
+
+      const totalPages = Math.ceil(filteredFriends.length / pageSize);
+      const maxVisiblePages = 5;
+      let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+      if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+
+      // 上一页按钮
+      const prevLi = document.createElement('li');
+      prevLi.className = 'page-item' + (currentPage === 1 ? ' disabled' : '');
+      prevLi.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>`;
+      prevLi.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage > 1) {
+          currentPage--;
+          renderFriendList();
+          renderPagination();
+        }
+      });
+      pagination.appendChild(prevLi);
+
+      // 页码按钮
+      for (let i = startPage; i <= endPage; i++) {
+        const li = document.createElement('li');
+        li.className = 'page-item' + (i === currentPage ? ' active' : '');
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener('click', (e) => {
+          e.preventDefault();
+          currentPage = i;
+          renderFriendList();
+          renderPagination();
+        });
+        pagination.appendChild(li);
+      }
+
+      // 下一页按钮
+      const nextLi = document.createElement('li');
+      nextLi.className = 'page-item' + (currentPage === totalPages ? ' disabled' : '');
+      nextLi.innerHTML = `<a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>`;
+      nextLi.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderFriendList();
+          renderPagination();
+        }
+      });
+      pagination.appendChild(nextLi);
+    }
+
+    // 添加事件监听器
+    function addEventListeners() {
+      // 搜索按钮事件
+      searchBtn.addEventListener('click', performSearch);
+      searchInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+          performSearch();
+        }
+      });
+
+      // 添加好友按钮事件
+      addFriendBtn.addEventListener('click', openAddModal);
+      addFirstFriendBtn.addEventListener('click', openAddModal);
+
+      // 保存好友按钮事件
+      saveFriendBtn.addEventListener('click', saveFriend);
+
+      // 确认删除按钮事件
+      confirmDeleteBtn.addEventListener('click', deleteFriend);
+
+      // 发送消息按钮事件
+      sendMessageBtn.addEventListener('click', sendMessage);
+      messageInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+          sendMessage();
+        }
+      });
+    }
+
+    // 执行搜索
+    function performSearch() {
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      if (searchTerm === '') {
+        filteredFriends = [...friends];
+      } else {
+        filteredFriends = friends.filter(friend =>
+          friend.name.toLowerCase().includes(searchTerm) ||
+          friend.phone.includes(searchTerm) ||
+          (friend.remark && friend.remark.toLowerCase().includes(searchTerm))
+        );
+      }
+      currentPage = 1;
+      renderFriendList();
+      renderPagination();
+    }
+
+    // 打开添加好友模态框
+    function openAddModal() {
+      friendModalLabel.textContent = '添加好友';
+      friendForm.reset();
+      friendIdInput.value = '';
+      editingFriendId = null;
+      friendModal.show();
+    }
+
+    // 打开编辑好友模态框
+    function openEditModal(id) {
+      const friend = friends.find(f => f.id === id);
+      if (friend) {
+        friendModalLabel.textContent = '编辑好友';
+        friendNameInput.value = friend.name;
+        friendPhoneInput.value = friend.phone;
+        friendRemarkInput.value = friend.remark || '';
+        friendIdInput.value = friend.id;
+        editingFriendId = id;
+        friendModal.show();
+      }
+    }
+
+    // 保存好友信息
+    function saveFriend() {
+      const name = friendNameInput.value.trim();
+      const phone = friendPhoneInput.value.trim();
+      const remark = friendRemarkInput.value.trim();
+      const id = parseInt(friendIdInput.value);
+
+      // 验证输入
+      if (!name || !phone) {
+        showNotification('请填写完整的好友信息', 'warning');
+        return;
+      }
+
+      // 验证手机号格式
+      const phoneRegex = /^1[3-9]\d{9}$/;
+      if (!phoneRegex.test(phone)) {
+        showNotification('请输入有效的11位手机号', 'warning');
+        return;
+      }
+
+      // 检查手机号是否已存在（排除当前编辑的好友）
+      const phoneExists = friends.some(friend =>
+        friend.phone === phone && friend.id !== id
+      );
+      if (phoneExists) {
+        showNotification('该手机号已存在于好友列表中', 'warning');
+        return;
+      }
+
+      if (id) {
+        // 编辑现有好友
+        const index = friends.findIndex(f => f.id === id);
+        if (index !== -1) {
+          friends[index] = {
+            ...friends[index],
+            name,
+            phone,
+            remark
+          };
+          showNotification('好友信息已更新', 'success');
+        }
+      } else {
+        // 添加新好友
+        const newId = friends.length > 0 ? Math.max(...friends.map(f => f.id)) + 1 : 1;
+        const today = new Date().toISOString().split('T')[0];
+        friends.push({
+          id: newId,
+          name,
+          phone,
+          remark,
+          addTime: today
+        });
+        showNotification('好友添加成功', 'success');
+      }
+
+      // 关闭模态框并更新列表
+      friendModal.hide();
+      performSearch(); // 刷新筛选结果
+    }
+
+    // 打开删除确认模态框
+    function openDeleteModal(id) {
+      const friend = friends.find(f => f.id === id);
+      if (friend) {
+        deleteFriendName.textContent = friend.name;
+        deletingFriendId = id;
+        confirmDeleteModal.show();
+      }
+    }
+
+    // 删除好友
+    function deleteFriend() {
+      if (deletingFriendId !== null) {
+        friends = friends.filter(friend => friend.id !== deletingFriendId);
+        showNotification('好友已删除', 'success');
+        confirmDeleteModal.hide();
+        performSearch(); // 刷新筛选结果
+        deletingFriendId = null;
+      }
+    }
+
+    // 打开聊天模态框
+    function openChatModal(id) {
+      const friend = friends.find(f => f.id === id);
+      if (friend) {
+        chatFriendName.textContent = friend.name;
+        chattingFriendId = id;
+        // 清空聊天记录
+        chatMessages.innerHTML = '';
+        // 显示模拟聊天记录
+        showMockChatMessages(friend.name);
+        chatModal.show();
+        // 自动聚焦到输入框
+        messageInput.focus();
+      }
+    }
+
+    // 显示模拟聊天记录
+    function showMockChatMessages(friendName) {
+      const mockMessages = [
+        { sender: 'system', text: `开始与 ${friendName} 聊天`, time: '刚刚' },
+        { sender: 'friend', text: '你好！最近怎么样？', time: '10:30' },
+        { sender: 'me', text: '挺好的，你呢？', time: '10:31' },
+        { sender: 'friend', text: '我也不错，最近在忙什么？', time: '10:32' }
+      ];
+
+      mockMessages.forEach(msg => {
+        addChatMessage(msg.sender, msg.text, msg.time);
+      });
+    }
+
+    // 添加聊天消息
+    function addChatMessage(sender, text, time) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `mb-3 ${sender === 'me' ? 'text-right' : 'text-left'}`;
+
+      const messageContent = document.createElement('div');
+      messageContent.className = `d-inline-block p-2 rounded-lg max-w-[70%] ${sender === 'me' ? 'bg-primary text-white' : 'bg-light text-dark'}`;
+      messageContent.textContent = text;
+
+      const messageTime = document.createElement('div');
+      messageTime.className = 'text-xs text-muted';
+      messageTime.textContent = time;
+
+      if (sender === 'me') {
+        messageDiv.appendChild(messageTime);
+        messageDiv.appendChild(messageContent);
+      } else {
+        messageDiv.appendChild(messageContent);
+        messageDiv.appendChild(messageTime);
+      }
+
+      chatMessages.appendChild(messageDiv);
+      // 滚动到底部
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // 发送消息
+    function sendMessage() {
+      const message = messageInput.value.trim();
+      if (message && chattingFriendId !== null) {
+        const now = new Date();
+        const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+        // 添加自己的消息
+        addChatMessage('me', message, time);
+
+        // 清空输入框
+        messageInput.value = '';
+
+        // 模拟好友回复（延时）
+        setTimeout(() => {
+          const replies = [
+            '好的，我知道了',
+            '收到，谢谢！',
+            '明白，稍后回复你',
+            '哈哈哈，太有意思了',
+            '好的，我们保持联系'
+          ];
+          const randomReply = replies[Math.floor(Math.random() * replies.length)];
+          const replyTime = `${new Date().getHours().toString().padStart(2, '0')}:${new Date().getMinutes().toString().padStart(2, '0')}`;
+          addChatMessage('friend', randomReply, replyTime);
+        }, 1000 + Math.random() * 2000);
+      }
+    }
+
+    // 显示通知
+    function showNotification(message, type = 'info') {
+      notificationMessage.textContent = message;
+
+      // 设置通知类型样式
+      notificationIcon.className = 'fa mr-2';
+      notificationTitle.textContent = '';
+
+      if (type === 'success') {
+        notificationIcon.className += ' fa-check-circle text-success';
+        notificationTitle.textContent = '成功';
+        notificationTitle.className = 'mr-auto text-success';
+      } else if (type === 'warning') {
+        notificationIcon.className += ' fa-exclamation-triangle text-warning';
+        notificationTitle.textContent = '警告';
+        notificationTitle.className = 'mr-auto text-warning';
+      } else if (type === 'error') {
+        notificationIcon.className += ' fa-times-circle text-danger';
+        notificationTitle.textContent = '错误';
+        notificationTitle.className = 'mr-auto text-danger';
+      } else {
+        notificationIcon.className += ' fa-info-circle text-info';
+        notificationTitle.textContent = '信息';
+        notificationTitle.className = 'mr-auto text-info';
+      }
+
+      // 显示通知
+      notification.show();
+    }
+
+    // 初始化页面
+    document.addEventListener('DOMContentLoaded', initPage);
+  </script>
+</body>
+
+</html>

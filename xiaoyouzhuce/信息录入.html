@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学生信息录入系统</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.net/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .form-control.is-invalid {
+      border-color: #dc3545;
+    }
+
+    .form-control.is-valid {
+      border-color: #28a745;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .success-message {
+      text-align: center;
+      color: #28a745;
+      font-size: 16px;
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body background="bg.jpg">
+  <div class="form-container">
+    <h1>学生信息录入</h1>
+    <form id="studentForm" action="主页new02.html">
+      <div class="mb-3">
+        <label for="studentId" class="form-label">学号 <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="studentId" placeholder="请输入10位学号">
+        <div class="error-message" id="studentIdError"></div>
+      </div>
+      <div class="mb-3">
+        <label for="studentName" class="form-label">姓名 <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="studentName" placeholder="请输入姓名">
+        <div class="error-message" id="studentNameError"></div>
+      </div>
+      <div class="mb-3">
+        <label for="college" class="form-label">学院 <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="college" placeholder="请输入学院名称">
+        <div class="error-message" id="collegeError"></div>
+      </div>
+      <div class="mb-3">
+        <label for="nativePlace" class="form-label">籍贯 <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="nativePlace" placeholder="请输入籍贯">
+        <div class="error-message" id="nativePlaceError"></div>
+      </div>
+      <div class="mb-3">
+        <label for="employment" class="form-label">就业单位 <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="employment" placeholder="请输入就业单位名称">
+        <div class="error-message" id="employmentError"></div>
+      </div>
+      <div class="mb-3">
+        <label for="phone" class="form-label">手机号 <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="phone" placeholder="请输入11位手机号">
+        <div class="error-message" id="phoneError"></div>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">邮箱 <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="email" placeholder="请输入邮箱地址">
+        <div class="error-message" id="emailError"></div>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">密码 <span class="text-danger">*</span></label>
+        <input type="password" class="form-control" id="password" placeholder="请输入6-12位密码">
+        <div class="error-message" id="passwordError"></div>
+      </div>
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">确认密码 <span class="text-danger">*</span></label>
+        <input type="password" class="form-control" id="confirmPassword" placeholder="请再次输入密码">
+        <div class="error-message" id="confirmPasswordError"></div>
+      </div>
+      <button type="submit" class="btn btn-primary submit-btn">提交</button>
+      <div class="success-message" id="successMessage">
+        信息提交成功！<a href="主页new02.html">返回主页</a>
+      </div>
+      <a href="主页new02.html">返回主页</a>
+    </form>
+  </div>
+
+  <script>
+    // 获取表单和所有输入元素
+    const form = document.getElementById('studentForm');
+    const studentId = document.getElementById('studentId');
+    const studentName = document.getElementById('studentName');
+    const college = document.getElementById('college');
+    const nativePlace = document.getElementById('nativePlace');
+    const employment = document.getElementById('employment');
+    const phone = document.getElementById('phone');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const successMessage = document.getElementById('successMessage');
+
+    // 为每个输入字段添加blur事件监听器
+    studentId.addEventListener('blur', validateStudentId);
+    studentName.addEventListener('blur', validateName);
+    college.addEventListener('blur', validateCollege);
+    nativePlace.addEventListener('blur', validateNativePlace);
+    employment.addEventListener('blur', validateEmployment);
+    phone.addEventListener('blur', validatePhone);
+    email.addEventListener('blur', validateEmail);
+    password.addEventListener('blur', validatePassword);
+    confirmPassword.addEventListener('blur', validateConfirmPassword);
+
+    // 为表单添加submit事件监听器
+    form.addEventListener('submit', function (event) {
+      // 阻止表单默认提交行为
+      event.preventDefault();
+
+      // 验证所有字段
+      const isStudentIdValid = validateStudentId();
+      const isNameValid = validateName();
+      const isCollegeValid = validateCollege();
+      const isNativePlaceValid = validateNativePlace();
+      const isEmploymentValid = validateEmployment();
+      const isPhoneValid = validatePhone();
+      const isEmailValid = validateEmail();
+      const isPasswordValid = validatePassword();
+      const isConfirmPasswordValid = validateConfirmPassword();
+
+      // 如果所有字段都验证通过
+      if (isStudentIdValid && isNameValid && isCollegeValid && isNativePlaceValid &&
+        isEmploymentValid && isPhoneValid && isEmailValid && isPasswordValid && isConfirmPasswordValid) {
+        // 模拟提交成功
+        form.style.display = 'none';
+        successMessage.style.display = 'block';
+
+        // 这里可以添加AJAX请求，将数据发送到服务器
+        console.log('表单数据验证通过，可以提交到服务器');
+        console.log({
+          studentId: studentId.value,
+          studentName: studentName.value,
+          college: college.value,
+          nativePlace: nativePlace.value,
+          employment: employment.value,
+          phone: phone.value,
+          email: email.value
+          // 注意：实际应用中不要在控制台输出密码
+        });
+      }
+    });
+
+    // 验证函数
+    function validateStudentId() {
+      const value = studentId.value.trim();
+      const errorElement = document.getElementById('studentIdError');
+
+      if (value === '') {
+        showError(studentId, errorElement, '学号不能为空');
+        return false;
+      }
+
+      if (value.length !== 10) {
+        showError(studentId, errorElement, '学号必须为10位');
+        return false;
+      }
+
+      if (!/^\d+$/.test(value)) {
+        showError(studentId, errorElement, '学号只能包含数字');
+        return false;
+      }
+
+      showSuccess(studentId, errorElement);
+      return true;
+    }
+
+    function validateName() {
+      const value = studentName.value.trim();
+      const errorElement = document.getElementById('studentNameError');
+
+      if (value === '') {
+        showError(studentName, errorElement, '姓名不能为空');
+        return false;
+      }
+
+      if (value.length < 2 || value.length > 10) {
+        showError(studentName, errorElement, '姓名长度必须在2到10个字符之间');
+        return false;
+      }
+
+      showSuccess(studentName, errorElement);
+      return true;
+    }
+
+    function validateCollege() {
+      const value = college.value.trim();
+      const errorElement = document.getElementById('collegeError');
+
+      if (value === '') {
+        showError(college, errorElement, '学院不能为空');
+        return false;
+      }
+
+      showSuccess(college, errorElement);
+      return true;
+    }
+
+    function validateNativePlace() {
+      const value = nativePlace.value.trim();
+      const errorElement = document.getElementById('nativePlaceError');
+
+      if (value === '') {
+        showError(nativePlace, errorElement, '籍贯不能为空');
+        return false;
+      }
+
+      showSuccess(nativePlace, errorElement);
+      return true;
+    }
+
+    function validateEmployment() {
+      const value = employment.value.trim();
+      const errorElement = document.getElementById('employmentError');
+
+      if (value === '') {
+        showError(employment, errorElement, '就业单位不能为空');
+        return false;
+      }
+
+      if (value.length > 50) {
+        showError(employment, errorElement, '就业单位名称不能超过50个字符');
+        return false;
+      }
+
+      showSuccess(employment, errorElement);
+      return true;
+    }
+
+    function validatePhone() {
+      const value = phone.value.trim();
+      const errorElement = document.getElementById('phoneError');
+
+      if (value === '') {
+        showError(phone, errorElement, '手机号不能为空');
+        return false;
+      }
+
+      if (value.length !== 11) {
+        showError(phone, errorElement, '手机号必须为11位');
+        return false;
+      }
+
+      if (!/^1[3-9]\d{9}$/.test(value)) {
+        showError(phone, errorElement, '请输入有效的手机号码');
+        return false;
+      }
+
+      showSuccess(phone, errorElement);
+      return true;
+    }
+
+    function validateEmail() {
+      const value = email.value.trim();
+      const errorElement = document.getElementById('emailError');
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+      if (value === '') {
+        showError(email, errorElement, '邮箱不能为空');
+        return false;
+      }
+
+      if (!emailRegex.test(value)) {
+        showError(email, errorElement, '请输入正确的邮箱格式');
+        return false;
+      }
+
+      showSuccess(email, errorElement);
+      return true;
+    }
+
+    function validatePassword() {
+      const value = password.value;
+      const errorElement = document.getElementById('passwordError');
+
+      if (value === '') {
+        showError(password, errorElement, '密码不能为空');
+        return false;
+      }
+
+      if (value.length < 6 || value.length > 12) {
+        showError(password, errorElement, '密码长度必须在6到12个字符之间');
+        return false;
+      }
+
+      showSuccess(password, errorElement);
+
+      // 如果确认密码已经填写，重新验证确认密码
+      if (confirmPassword.value !== '') {
+        validateConfirmPassword();
+      }
+
+      return true;
+    }
+
+    function validateConfirmPassword() {
+      const value = confirmPassword.value;
+      const errorElement = document.getElementById('confirmPasswordError');
+
+      if (value === '') {
+        showError(confirmPassword, errorElement, '请确认密码');
+        return false;
+      }
+
+      if (value !== password.value) {
+        showError(confirmPassword, errorElement, '两次输入的密码不一致');
+        return false;
+      }
+
+      showSuccess(confirmPassword, errorElement);
+      return true;
+    }
+
+    // 显示错误信息
+    function showError(inputElement, errorElement, message) {
+      inputElement.classList.add('is-invalid');
+      inputElement.classList.remove('is-valid');
+      errorElement.textContent = message;
+      errorElement.style.display = 'block';
+    }
+
+    // 显示成功状态
+    function showSuccess(inputElement, errorElement) {
+      inputElement.classList.remove('is-invalid');
+      inputElement.classList.add('is-valid');
+      errorElement.style.display = 'none';
+    }
+
+    // 添加回车键提交功能
+    document.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter' && e.target.form === form) {
+        form.dispatchEvent(new Event('submit'));
+      }
+    });
+  </script>
+</body>
+
+</html>
